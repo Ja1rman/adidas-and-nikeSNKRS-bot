@@ -20,8 +20,8 @@ from openpyxl import load_workbook
 import json
 import traceback
 import math
-import threading
 import asyncio
+import aiohttp
 
 filePath = os.path.dirname(os.path.abspath(__file__))
 
@@ -72,18 +72,16 @@ class nikeBot:
         proxyPassword = s[s.rfind(':')+1:]
 
         #driver & requests
-        self.session = requests.Session()
-        
-        if len(ip) > 5:
-            proxy = Proxy({
+        proxyy = Proxy({
                 'proxyType': ProxyType.MANUAL,
                 'httpProxy': ip + ":" + port,
                 'socksUsername': proxyLogin,
                 'socksPassword': proxyPassword
                 })
-            
-            self.driver = Firefox(executable_path=filePath + '/geckodriver.exe', proxy=proxy)
-            self.session.proxies.update({'https' : 'https://' + proxyLogin + ':' + proxyPassword + '@' + ip + ':' + port} )
+
+        if len(ip) > 5:
+            self.driver = Firefox(executable_path=filePath + '/geckodriver.exe', proxy=proxyy)
+            self.proxy = 'http://' + proxyLogin + ':' + proxyPassword + '@' + ip + ':' + port
         else:
             self.driver = Firefox(executable_path=filePath + '/geckodriver.exe')
 
@@ -280,10 +278,13 @@ class nikeBot:
         await asyncio.sleep(1)
         url2 = 'https://api.nike.com/launch/entries/v2'
 
-        for cookies in self.driver.get_cookies(): 
-            self.session.cookies.set(cookies['name'], cookies['value'])
+        cookies = {}
+        for cookie in self.driver.get_cookies(): 
+            cookies[cookie['name']] = cookie['value']
 
-        a = str(requests.utils.dict_from_cookiejar(self.session.cookies))
+        self.session = aiohttp.ClientSession(cookies=cookies)
+
+        a = str(cookie)
         a = a.replace(',', ';')
         a = a.replace(': ', '=')
         a = a.replace('{', '')
@@ -303,9 +304,10 @@ class nikeBot:
             'Connection' : 'keep-alive'
         } 
 
-        tasks = []
         xpath = '//button[@class="button-submit"]'
+        tasks = []
         self.place = True
+        self.result = ""
         counter = 0
         until = float(datetime.now().replace(hour=int(self.hour), minute=int(self.minute), second=int(self.sec)).timestamp())
         sleep = int(until - float(time.time()))
@@ -315,42 +317,39 @@ class nikeBot:
 
         now = time.time()
         sec = now + 5
-        self.result = ""
-    
-        while now < sec and self.place:
-            try:
-                tasks.append(asyncio.create_task(self.send_request(headers, data, url2)))
-            except: errors('in spam' + traceback.format_exc())
-
-            await asyncio.sleep(0.1)
-            now = time.time()
-            counter += 1
         
-        [await t for t in tasks] 
+        while now < sec and self.place and counter < 400:
+            for _ in range(8): tasks.append(asyncio.create_task(self.send_request(url2, data, headers)))
+            await asyncio.sleep(0)
+            now = time.time()
+            counter += 8
+        
+        print(counter)
+
+        await asyncio.wait(tasks)
         
         errors(self.result, whichtask=self.whichtask)
-        print(counter)
+
         await asyncio.sleep(420)
 
-        response = self.session.get(url2, headers=headers)
-        text = ""
-        try:
-            text = str(response.json())
-        except: text = traceback.format_exc()
-        with open(filePath + '/wins.txt', mode='a', encoding='utf-8') as f:
-            f.write(text + '\n\n')
-    
-    async def send_request(self, headers, data, url):
-        date = datetime.now()
-        response = self.session.post(url, json=data, headers=headers)
-        try:
-            self.result += str(date) + " " + str(response.json()) + '\n'
-            if 'code' in response.json() and response.json()['code'] == 'ENTRY_LIMIT_EXCEEDED': self.place = False
-            if 'id' in response.json():
-                self.place = False
-                self.driver.get('https://www.nike.com/ru/launch/t/' + self.itemName + '/?launchEntryId=' + response.json()['id'] + '&launchId=' + response.json()['launchId'] + '&skuId=' + response.json()['skuId'])
-        except: self.result += str(traceback.format_exc()) + '\n'
+        async with self.session.get(url2, headers=headers) as response:
+            try: text = str(response.json())
+            except: text = traceback.format_exc()
+            with open(filePath + '/wins.txt', mode='a', encoding='utf-8') as f:
+                f.write(text + '\n\n')
   
+    async def send_request(self, url, data, headers):
+        date = datetime.now()
+        async with self.session.post(url, json=data, headers=headers) as response:
+            try:
+                json_body = await response.json()
+                self.result += str(date) + ' ' + str(datetime.now())  + ' ' + str(json_body) + '\n'
+                if 'code' in json_body and json_body['code'] == 'ENTRY_LIMIT_EXCEEDED': self.place = False
+                elif 'id' in json_body:
+                    self.place = False
+                    self.driver.get('https://www.nike.com/ru/launch/t/' + self.itemName + '/?launchEntryId=' + json_body['id'] + '&launchId=' + json_body['launchId'] + '&skuId=' + json_body['skuId'])
+            except: self.result += str(traceback.format_exc()) + '\n'
+
 def errors(text, whichtask=1):
     with open(filePath + '/errors' + (str(whichtask) if whichtask != 1 else '') + '.txt', mode='a', encoding='utf-8') as f:
         try: f.write(text + '\n\n')
@@ -391,7 +390,7 @@ if __name__ == '__main__':
     today = re.findall(pattern, html)[0]
     
     if int(today[2]) == 2021 and int(today[1]) <= 2:
-        print("Успешный запуск программы")
+        print("OMRCommunity")
         try: asyncio.run(start())
         except: print(traceback.format_exc())
     else: 
