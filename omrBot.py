@@ -22,6 +22,7 @@ import traceback
 import math
 import asyncio
 import aiohttp
+import threading
 
 filePath = os.path.dirname(os.path.abspath(__file__))
 
@@ -58,10 +59,12 @@ class nikeBot:
         self.cardcvc = (str(sheet.cell(row=whichtask, column=5).value)).replace(' ', '')
         self.releaselink = (str(sheet.cell(row=whichtask, column=8).value)).replace(' ', '')
         self.sec = (str(sheet.cell(row=whichtask, column=6).value)).replace(' ', '')
-        self.minute = (str(sheet.cell(row=2, column=8).value)).replace(' ', '')
-        self.hour = (str(sheet.cell(row=2, column=7).value)).replace(' ', '')
-        self.price = (str(sheet.cell(row=2, column=6).value)).replace(' ', '')
-  
+        self.minute = (str(sheet.cell(row=4, column=4).value)).replace(' ', '')
+        self.hour = (str(sheet.cell(row=3, column=4).value)).replace(' ', '')
+        self.price = (str(sheet.cell(row=5, column=4).value)).replace(' ', '')
+        self.quantReq = int((str(sheet.cell(row=1, column=6).value)).replace(' ', ''))
+        self.spamtime = int((str(sheet.cell(row=2, column=6).value)).replace(' ', ''))
+
         #proxy
         s = (str(sheet.cell(row=whichtask, column=7).value)).replace(' ', '')
         ip = s[:s.find(':')]
@@ -84,6 +87,10 @@ class nikeBot:
             self.proxy = 'http://' + proxyLogin + ':' + proxyPassword + '@' + ip + ':' + port
         else:
             self.driver = Firefox(executable_path=filePath + '/geckodriver.exe')
+
+    def run(self):
+        loop = asyncio.new_event_loop()
+        loop.run_until_complete(self.main())
 
     async def main(self):
         try:
@@ -115,9 +122,11 @@ class nikeBot:
             await self.atk_request()
             
             await asyncio.sleep(7200)
+            self.session.close()
             self.driver.quit()
         except: 
             errors('in main ' + traceback.format_exc())
+            self.session.close()
             self.driver.quit()
                 
     async def get_auth(self):
@@ -309,20 +318,19 @@ class nikeBot:
         self.place = True
         self.result = ""
         counter = 0
-        until = float(datetime.now().replace(hour=int(self.hour), minute=int(self.minute), second=int(self.sec)).timestamp())
-        sleep = int(until - float(time.time()))
-        await asyncio.sleep(sleep)
+        until = datetime.now().replace(hour=int(self.hour), minute=int(self.minute), second=int(self.sec))
+        await asyncio.sleep((until - datetime.now()).total_seconds())
                 
         self.driver.find_element_by_xpath(xpath).click()
 
         now = time.time()
-        sec = now + 5
+        sec = now + self.spamtime
         
-        while now < sec and self.place and counter < 400:
-            for _ in range(8): tasks.append(asyncio.create_task(self.send_request(url2, data, headers)))
+        while now < sec and self.place and counter < 500:
+            for _ in range(self.quantReq): tasks.append(asyncio.create_task(self.send_request(url2, data, headers)))
             await asyncio.sleep(0)
             now = time.time()
-            counter += 8
+            counter += self.quantReq
         
         print(counter)
 
@@ -355,7 +363,7 @@ def errors(text, whichtask=1):
         try: f.write(text + '\n\n')
         except: f.write(traceback.format_exc())
 
-async def start():
+def start():
     with open(filePath + '/errors.txt', mode='w', encoding='utf-8') as f:
         f.write('')
     
@@ -364,10 +372,10 @@ async def start():
 
     wb = load_workbook(filePath + '/config.xlsx')
     sheet = wb['info']
-    end = 8 + int(sheet.cell(row=2, column=4).value)
+    end = 8 + int(sheet.cell(row=1, column=4).value)
 
     tasks = []
-    time_wait = sheet.cell(row=2, column=5).value
+    time_wait = sheet.cell(row=2, column=4).value
     hour = time_wait[:time_wait.find(':')]
     minutes = time_wait[time_wait.find(':')+1:]
     today = datetime.now()
@@ -378,11 +386,12 @@ async def start():
                 f.write('')
 
             n = nikeBot(whichtask, sheet)
-            task = asyncio.create_task(n.main())
+            task = threading.Thread(target=(n.run))
             tasks.append(task)
+            tasks[-1].start()
         except: errors('in start' + traceback.format_exc())
         
-    [await t for t in tasks]
+    [t.join() for t in tasks]
 
 if __name__ == '__main__':
     html = requests.get('https://bilet.pp.ru/calculator_rus/tochnoe_moskovskoe_vremia.php').text
@@ -391,7 +400,7 @@ if __name__ == '__main__':
     
     if int(today[2]) == 2021 and int(today[1]) <= 2:
         print("OMRCommunity")
-        try: asyncio.run(start())
+        try: start()
         except: print(traceback.format_exc())
     else: 
         print("Access denied")
