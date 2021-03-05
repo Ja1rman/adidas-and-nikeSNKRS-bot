@@ -23,6 +23,8 @@ import math
 import asyncio
 import aiohttp
 from aiohttp_proxy import ProxyConnector
+import pymysql
+from wmi import WMI
 
 filePath = os.path.dirname(os.path.abspath(__file__))
 
@@ -298,7 +300,7 @@ class nikeBot:
         a = a.replace('}', '')
         a = a.replace('\'', '')
         headers = {'Authorization': 'Bearer ' + str(self.auth),
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0", 
+            "User-Agent": self.driver.execute_script("return navigator.userAgent;"), 
             'Referer': link2,
             'Cookie': a,
             'Accept': 'application/json, text/plain, */*',
@@ -323,15 +325,9 @@ class nikeBot:
         
         await asyncio.wait(tasks)
         
+        await asyncio.sleep(3)
+
         errors(self.result, whichtask=self.whichtask)
-
-        await asyncio.sleep(420)
-
-        async with self.session.get(url2, headers=headers) as response:
-            try: text = str(response.json())
-            except: text = traceback.format_exc()
-            with open(filePath + '/wins.txt', mode='a', encoding='utf-8') as f:
-                f.write(text + '\n\n')
   
     async def send_request(self, url, data, headers):
         date = datetime.now()
@@ -376,13 +372,42 @@ async def start():
         
     [await t for t in tasks]
 
+def access():
+    try:
+        con = pymysql.connect('eu-cdbr-west-03.cleardb.net', 'b4772d6f260194', '9e8a8d8b', 'heroku_029551b0b6dc796')
+        with con:
+            cur = con.cursor()
+            hwid = WMI().Win32_ComputerSystemProduct()[0].UUID
+            cur.execute("SELECT * FROM accounts WHERE hwid = %s", (str(hwid),))
+            row = cur.fetchall()
+            if len(row) > 0:
+                old_date  = row[0][3]
+                request_url = 'https://bilet.pp.ru/calculator_rus/tochnoe_moskovskoe_vremia.php'
+                page_html = requests.get(request_url).text
+                time = re.findall(r'\d\d:\d\d:\d\d', page_html)[0]
+                try:
+                    today = re.findall(r'\d\d-\d\d-\d{4}', page_html)[0]
+                except:
+                    today = re.findall(r'\d-\d\d-\d{4}', page_html)[0]
+                today += ' ' + time
+                date_today = datetime.datetime.strptime(today, '%d-%m-%Y %H:%M:%S') 
+                if old_date < date_today:
+                    return 0
+            else:
+                return 0
+            cur.close()
+        return 1
+    except:
+        print(traceback.format_exc())
+        return 0
+
 if __name__ == '__main__':
     html = requests.get('https://bilet.pp.ru/calculator_rus/tochnoe_moskovskoe_vremia.php').text
     pattern = r">(.*?)-(.*?)-(.*?)<"
     today = re.findall(pattern, html)[0]
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    if int(today[2]) == 2021 and int(today[1]) <= 2:
-        print("ВНИМАНИЕ!!! ВОР В ЗЕЛЁНОМ ХУДИ! ЕГО ИНТЕРЕСУЮТ ЛЮБЫЕ ВЕЩИ\nПрячьте детей, брелки, ключи. ОН СПИЗДИТ ВСЁ")
+    if int(today[2]) == 2021 and int(today[1]) <= 3:
+        print('ТОЧНО КОПНЕМ!')
         try: asyncio.run(start())
         except: print(traceback.format_exc())
     else: print("Access denied")
