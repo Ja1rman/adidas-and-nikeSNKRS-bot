@@ -1,0 +1,53 @@
+{
+    "name": "OMR",
+    "version": "1.0",
+    "manifest_version": 2,
+    "offline_enabled": false,
+    "permissions": [
+        "tabs",
+        "<all_urls>",
+        "storage",
+        "webRequest",
+        "webRequestBlocking"
+    ],
+    "icons": {
+        "16": "icons/16x16.png",
+        "48": "icons/48x48.png",
+        "128": "icons/128x128.png"
+    },
+    "background": {
+        "scripts": [
+            "src/js/vendor/jquery.min.js",
+            "src/js/background.js"
+        ],
+        "persistent": true
+    },
+    "browser_action": {
+        "default_popup": "src/popup.html"
+    },
+    "content_scripts": [{
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "src/js/vendor/jquery.min.js",
+                "src/js/content.js"
+            ],
+            "run_at": "document_start"
+        },
+        {
+            "all_frames": true,
+            "js": [
+                "src/js/vendor/jquery.min.js",
+                "src/js/snkrs/russia.js"
+
+            ],
+            "matches": [
+                "*://gs.nike.com/*",
+                "*://gs-payments.nike.com/*"
+            ],
+            "run_at": "document_start"
+        }
+    ],
+    "description": ""
+}

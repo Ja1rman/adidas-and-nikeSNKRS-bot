@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link href="css/popup.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <div class="main" id="authorization">
+    <header class="header">
+      <div class="container headerContainer">
+        <div style="margin: auto;">
+          Autorization
+        </div>
+      </div>
+    </header>
+    <section class='hero'>
+      <div class="mainContainer" data-active='true' id="autorizationBox">
+        <div class="container absolutelyCenter">
+          <h1>log in to your account</h1>
+          <div class="featuresContainer">
+            <div>
+              <input type="text" placeholder="License key" class="defaultInput" id="licenseKey" autocomplete="off"/>
+            </div>
+            <div class="flex fWidth100">
+              <!-- <input class="defaultInput fWidth55" id="password" type="password" placeholder="password" autocomplete="off"> -->
+              <div class="defaultButton fWidth100" id="autorizationBtn">Log in </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+    <footer class=footer>
+      <div class="container footerContainer">
+        <div class="footerLogo nikeFont">TWITTER$</div>
+        <div class="currentTime nikeFont"></div>
+        <div class="navigation">
+          <a href="https://twitter.com/earlyLinkforyou" class="navItem" target="_blank">
+            <div class="navItem" id="twitter"></div>
+          </a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div class="main" id="working">
+    <header class="header">
+      <div class="container headerContainer">
+        <div class="menuItem menuItem-first" id="action" data-active="true">
+          Action
+        </div>
+        <div class="menuItem menuItem-second" id="profiles">
+          Profiles
+        </div>
+      </div>
+    </header>
+    <section class='hero'>
+      <!-- ВВОД ССЫЛКИ ДЛЯ ГЕНЕРАЦИИ СТРАНИЦЫ ОПЛАТЫ -->
+      <div class="mainContainer" id="actionStart">
+        <div class="container flexColumn height100">
+          <div class="fWidth100" style="margin-top: 10px;">
+            <h1>Upcoming items</h1>
+            <div id="upcoming">
+            </div>
+          </div>
+
+          <div class="featuresContainer">
+            <div>
+              <input id='itemUrl' type="text" class="defaultInput" placeholder="https://www.nike.com/ru/launch/t/">
+            </div>
+            <div class="flex fWidth100">
+              <div class="defaultButton" id="generateItem">Accept</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ГЕНЕРАЦИЯ ГОТОВОЙ СТРАНИЦЫ ОПЛАТЫ -->
+      <div class="mainContainer" id="actionGenerate">
+        <div class="">
+          <div class="container itemContainer">
+            <div class="itemImage"></div>
+            <div class="itemDescriptionBox">
+              <h3 class="itemDescription itemTitle">Man shoes</h3>
+              <h1 class="itemDescription itemName"></h1>
+              <div class="flex">
+                <h2 class="itemDescription itemSize">Size: <span class="size">_</span> US</h2>
+              </div>
+            </div>
+          </div>
+          <div class="container productContainer">
+            <div id="sizeBox">
+              <div class="productSize" data-size="3.5">
+                <h3>US 3.5 (RU 34,5)</h3>
+              </div>
+              <div class="productSize" data-size="4">
+                <h3>US 4 (RU 35)</h3>
+              </div>
+              <div class="productSize" data-size="4.5">
+                <h3>US 4.5 (RU 35,5)</h3>
+              </div>
+              <div class="productSize" data-size="5">
+                <h3>US 5 (RU 36,5)</h3>
+              </div>
+              <div class="productSize" data-size="5.5">
+                <h3>US 5.5 (RU 37)</h3>
+              </div>
+              <div class="productSize" data-size="6">
+                <h3>US 6 (RU 37,5)</h3>
+              </div>
+              <div class="productSize" data-size="6.5">
+                <h3>US 6.5 (RU 38)</h3>
+              </div>
+              <div class="productSize" data-size="7">
+                <h3>US 7 (RU 39)</h3>
+              </div>
+              <div class="productSize" data-size="7.5">
+                <h3>US 7.5 (RU 39,5)</h3>
+              </div>
+              <div class="productSize" data-size="8">
+                <h3>US 8 (RU 40)</h3>
+              </div>
+              <div class="productSize" data-size="8.5">
+                <h3>US 8.5 (RU 41)</h3>
+              </div>
+              <div class="productSize" data-size="9">
+                <h3>US 9 (RU 41,5)</h3>
+              </div>
+              <div class="productSize" data-size="9.5">
+                <h3>US 9.5 (RU 42)</h3>
+              </div>
+              <div class="productSize" data-size="10">
+                <h3>US 10 (RU 43)</h3>
+              </div>
+              <div class="productSize" data-size="10.5">
+                <h3>US 10.5 (RU 43,5)</h3>
+              </div>
+              <div class="productSize" data-size="11">
+                <h3>US 11 (RU 44)</h3>
+              </div>
+              <div class="productSize" data-size="11.5">
+                <h3>US 11.5 (RU 44,5)</h3>
+              </div>
+              <div class="productSize" data-size="12">
+                <h3>US 12 (RU 45)</h3>
+              </div>
+              <div class="productSize" data-size="12.5">
+                <h3>US 12.5 (RU 46)</h3>
+              </div>
+              <div class="productSize" data-size="13">
+                <h3>US 13 (RU 46,5)</h3>
+              </div>
+              <div class="productSize" data-size="14">
+                <h3>US 14 (RU 47,5)</h3>
+              </div>
+              <div class="productSize" data-size="15">
+                <h3>US 15 (RU 48,5)</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="featuresContainer">
+            <div>
+              <div class="defaultButton" id="checkoutLink">Generate checkout link</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ГОТОВАЯ СТРАНИЦА ОПЛАТЫ -->
+      <div class="mainContainer" id="actionCheckout">
+        <div class="container itemContainer">
+          <div class="itemImage"></div>
+          <div class="itemDescriptionBox">
+            <h3 class="itemDescription itemTitle">Man shoes</h3>
+            <h1 class="itemDescription itemName"></h1>
+            <div class="flex" style="width: 220px;">
+              <h2 class="itemDescription itemSize">Size: <span class="size">_</span> US</h2>
+              <h2 class="itemDescription itemPrice">Price: <span class="price">none</span> </h2>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="featuresContainer">
+            <!-- <div>
+              <div class="defaultButton" id="generateAutofill">Generate autofill </div>
+            </div> -->
+            <div class="flex" >
+              <input type="text" name="checkoutTime" placeholder="13:59:58:900" class="defaultInput" id="scheduleTime">
+              <div class="defaultButton" id="setCheckoutTime">Set checkout time</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- СТРАНИЦА СО ВСЕМИ ПРОФИЛЯМИ  -->
+      <div class="mainContainer" id="profilesMenu">
+        <div class="container" id="profilesBox">
+          <h1>Your profiles</h1>
+
+          <div class="import-export-box">
+            <div class="profiles-image-box import-box" title='import'>
+            <input type="file" class="import-input" accept=".json" style="display:none" />
+
+              <svg width="24" height="24" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 18L16 13H13V2H11V13H8L12 18Z" />
+                <path d="M19 9H15V11H19V20H5V11H9V9H5C3.897 9 3 9.897 3 11V20C3 21.103 3.897 22 5 22H19C20.103 22 21 21.103 21 20V11C21 9.897 20.103 9 19 9Z" />
+              </svg>
+            </div>
+            <div class="profiles-image-box export-box" title='export'>
+              <svg width="24" height="24" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 16H13V7H16L12 2L8 7H11V16Z" />
+                <path d="M5 22H19C20.103 22 21 21.103 21 20V11C21 9.897 20.103 9 19 9H15V11H19V20H5V11H9V9H5C3.897 9 3 9.897 3 11V20C3 21.103 3.897 22 5 22Z" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="profilesBox">
+          </div>
+        </div>
+        <div class="container">
+          <div class="featuresContainer">
+            <div>
+              <div class="defaultButton" id="createNewProfile">Create New <div class="plus"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- СТРАНИЦА ЗАПОЛНЕНИЯ ДАННЫХ -->
+      <div class="mainContainer" id="profileGenerate">
+        <div class="actionText" id="backToProfileMenu"></div>
+        <div class="container flexColumn" id="dataBox">
+          <div class="dataItemBox">
+            <div class="dataItem" id="shipping" data-active="true">
+              <div class="dataItem-inner">
+                <h2>отправка</h2>
+                <div class="dataSubTitle"><span class="dataSubTitleValue"></span>
+                  <div class="plus"></div>
+                </div>
+              </div>
+              <div class="shippingBox dataOpenBox">
+                <div class="flex">
+                  <input type="text" class="defaultInput fWidth55" id="firstName" placeholder="Имя" autocomplete="off">
+                  <input type="text" class="defaultInput fWidth30" id="middleName" placeholder="Отчество*" autocomplete="off">
+                </div>
+                <input type="text" class="defaultInput" id="lastName" placeholder="Фамилия" autocomplete="off">
+                <div class="flex">
+                  <input type="text" class="defaultInput fWidth55" id="addrFirst" placeholder="Строка адреса 1" autocomplete="off">
+                  <input type="text" class="defaultInput fWidth30" id="addrSecond" placeholder="Строка адреса 2" autocomplete="off">
+                </div>
+                <input type="text" class="defaultInput" id="city" placeholder="Город" autocomplete="off">
+                <div class="flex">
+                  <div class="defaultInput defaultList fWidth55" id="region" style="height: 35px;line-height: 35px;margin-bottom: 5px;">
+                    <span class="defaultListTitle" name="region">Область</span>
+                    <div class="defaultListBox">
+                      <div class="defaultListItem">Москва</div>
+                      <div class="defaultListItem">Санкт-Петербург</div>
+                      <div class="defaultListItem">Ставропольский</div>
+                      <div class="defaultListItem">Алтайский</div>
+                      <div class="defaultListItem">Башкортостан</div>
+                      <div class="defaultListItem">Белгородская</div>
+                      <div class="defaultListItem">Челябинская</div>
+                      <div class="defaultListItem">Дагестан</div>
+                      <div class="defaultListItem">Хабаровский</div>
+                      <div class="defaultListItem">Ханты-Мансийский Автономный округ - Югра</div>
+                      <div class="defaultListItem">Ярославская</div>
+                      <div class="defaultListItem">Иркутская</div>
+                      <div class="defaultListItem">Калужская</div>
+                      <div class="defaultListItem">Кемеровская</div>
+                      <div class="defaultListItem">Краснодарский</div>
+                      <div class="defaultListItem">Красноярский</div>
+                      <div class="defaultListItem">Ленинградская</div>
+                      <div class="defaultListItem">Мордовия</div>
+                      <div class="defaultListItem">Московская</div>
+                      <div class="defaultListItem">Мурманская</div>
+                      <div class="defaultListItem">Нижегородская</div>
+                      <div class="defaultListItem">Новогородская</div>
+                      <div class="defaultListItem">Новосибирская</div>
+                      <div class="defaultListItem">Омская</div>
+                      <div class="defaultListItem">Оренбургская</div>
+                      <div class="defaultListItem">Орловская</div>
+                      <div class="defaultListItem">Пермский</div>
+                      <div class="defaultListItem">Приморский</div>
+                      <div class="defaultListItem">Рязанская</div>
+                      <div class="defaultListItem">Ростовская</div>
+                      <div class="defaultListItem">Саха (Якутия)</div>
+                      <div class="defaultListItem">Самарская</div>
+                      <div class="defaultListItem">Саратовская</div>
+                      <div class="defaultListItem">Смоленская</div>
+                      <div class="defaultListItem">Свердловская</div>
+                      <div class="defaultListItem">Татарстан</div>
+                      <div class="defaultListItem">Тюменская</div>
+                      <div class="defaultListItem">Томская</div>
+                      <div class="defaultListItem">Тульская</div>
+                      <div class="defaultListItem">Тверская</div>
+                      <div class="defaultListItem">Удмертская</div>
+                      <div class="defaultListItem">Владимирская</div>
+                      <div class="defaultListItem">Волгоградская</div>
+                      <div class="defaultListItem">Воронежская</div>
+                    </div>
+                  </div>
+                  <input type="text" class="defaultInput fWidth30" id="zip" placeholder="Почт. индекс" autocomplete="off">
+                </div>
+                <div class="flex">
+                  <input type="text" class="defaultInput" id="phone" placeholder="Телефон" autocomplete="off">
+                  <input type="text" class="defaultInput" id="email" placeholder="Эл. почта" autocomplete="off">
+                </div>
+              </div>
+            </div>
+          <div class="dataItem" id="verefication">
+              <!-- <div class="dataItem-inner">
+                <h2>Удостоверение личности</h2>
+                <div class="dataSubTitle"><span class="dataSubTitleValue"></span>
+                  <div class="plus"></div>
+                </div>
+              </div>  -->
+              <div class="vereficationBox dataOpenBox">
+                <div class="passportTypeBox">
+                  <div class="passportType" data-local="Local">
+                    <div class="circle" data-active="true"></div><span class="passportTypeSubTitle">Номер Внутреннего Паспорта</span>
+                  </div>
+                  <div class="passportType" data-local="Foring">
+                    <div class="circle"></div><span class="passportTypeSubTitle">Номер Иностранного Паспорта</span>
+                  </div>
+                </div> 
+                <div class="passportBox" data-active="true" data-local="Local">
+                  <div class="flex">
+                    <input type="text" class="defaultInput" id="passportNumber" placeholder="Номер паспорта" autocomplete="off" maxlength="20">
+                    <input type="text" class="defaultInput " id="passportIssueDate" placeholder="Дата выдачи" autocomplete="off">
+                  </div>
+                  <div class="flex">
+                    <input type="text" class="defaultInput fWidth55" id="issuingAuthority" placeholder="Кем выдан" autocomplete="off">
+                    <input type="text" class="defaultInput fWidth30" id="innNumber" placeholder="ИНН" autocomplete="off" maxlength="12">
+                  </div>
+                </div>
+                <div class="passportBox" data-local="Foring">
+                  <div class="flex">
+                    <input type="text" class="defaultInput" id="foringPassportNumber" placeholder="Номер иностранного паспорта" autocomplete="off">
+                    <input type="text" class="defaultInput" id="foringPassportIssueDate" placeholder="Дата выдачи ДД/ММ/ГГ" autocomplete="off">
+                  </div>
+                  <input type="text" class="defaultInput" id="foringIssuingAuthority" placeholder="Кем выдан" autocomplete="off">
+                </div> 
+              </div>
+            </div>
+            <div class="dataItem" id="payment">
+              <div class="dataItem-inner">
+                <h2>Оплата</h2>
+                <div class="dataSubTitle"><span class="dataSubTitleValue"></span>
+                  <div class="plus"></div>
+                </div>
+              </div>
+              <div class="paymentBox dataOpenBox">
+                <div class="flex">
+                  <input type="text" class="defaultInput fWidth45" id="cardNumber" placeholder="Номер карты" autocomplete="off">
+                  <input type="text" class="defaultInput fWidth20" id="cardDate" placeholder="ММ / ГГ" autocomplete="off">
+                  <input type="text" class="defaultInput fWidth10" id="cardCvv" placeholder="Cvv*" autocomplete="off" maxlength="3">
+                </div>
+                <!-- <div >
+                    <div class="billingBox"><span class="passportTypeSubTitle">Номер Внутреннего Паспорта</span></div>
+                  </div> -->
+              </div>
+            </div>
+            <!-- <p style="padding: 5px 10px; opacity: 0.5;">*Нажимая на кнопку ниже "save" вы соглашаетесь с условиями пользования </p> -->
+          </div>
+          <div class="featuresContainer">
+            <div class="flex fWidth100">
+              <input type="text" name="checkoutTime" placeholder="Profile name*" class="defaultInput fWidth55" id="profileName" maxlength="16">
+              <div class="defaultButton fWidth30" id="saveProfile">Save</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- НАСТРОЙКИ -->
+      <div class="mainContainer" id="settings">
+        <div class="container settingsBox">
+          <h1 style="padding-top: 10px;">Settings</h1>
+
+          <div class="dataItem" id="">
+            <div class="dataItem-inner">
+              <h2>OMR</h2>
+              <div class="dataSubTitle"><span class="dataSubTitleValue"></span>
+                <div class="plus"></div>
+              </div>
+            </div>
+            <div class="dataOpenBox">
+              <div class="configuration" id="autofillEnable">
+                <div class="configurationCheker" data-enable="true"></div>
+                <div class="configurationLabel"><h1>OFF/ON</h1></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer class=footer>
+      <div class="container footerContainer">
+        <div class="currentTime nikeFont"></div>
+        <div class="navigation">
+          <div class="navItem" id="settingsBtn"></div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <div class="main" id="error">
+    <div class="container absolutelyCenter">
+      <h1>Nike servers are not responding. <br> Please restart the extension and try again.</h1>
+    </div>
+  </div>
+</body>
+<script type="text/javascript" src="js/vendor/jquery.min.js"></script>
+<script type="text/javascript" src="js/popup.js"></script>
+
+</html>
